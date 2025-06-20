@@ -1,0 +1,95 @@
+table DimCustomer
+	lineageTag: 0ab9100e-02a6-4343-a919-50b7d69d7204
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0cf97761-069f-4a82-9678-2a36331af5aa
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerGender
+		dataType: string
+		lineageTag: 52a780e7-a5a0-4c9b-8bd2-862824e4b2dc
+		summarizeBy: none
+		sourceColumn: CustomerGender
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerAge
+		dataType: double
+		lineageTag: 0210b2eb-5dad-4a92-bcb8-7dbce93f16e2
+		summarizeBy: sum
+		sourceColumn: CustomerAge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d5fa311a-d95d-4b90-aa85-7a2abd226897
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 74a8bdd9-d15f-4cdc-becf-eb1bdf6849a1
+			defaultHierarchy: LocalDateTable_3c04f254-fc39-4e2d-ac58-2117819260ef.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b3c4829c-8d45-42ba-b9ac-c25497a0340b
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 9b96ce81-3721-4bea-ace1-241d69b5276a
+			defaultHierarchy: LocalDateTable_a6c08ac3-c54a-4ad1-98ab-b716bc97d5ca.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Group' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    DimCustomer[CustomerAge] >= 18 && DimCustomer[CustomerAge] <= 23, "18-23",
+			   DimCustomer[CustomerAge]  >= 24 && DimCustomer[CustomerAge]  <= 29, "24-29",
+			    DimCustomer[CustomerAge]  >= 30 && DimCustomer[CustomerAge]  <= 35, "30-35",
+			    "Other"
+			)
+			
+			```
+		lineageTag: 4dd2d0a7-73b3-4ac4-82bf-ac614ab44b6c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: dcf43c43-617a-401f-984d-3150fad9bd4e
+		summarizeBy: count
+		sourceColumn: LocationKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_DimCustomer = EcommrceDWH{[Schema="dbo",Item="DimCustomer"]}[Data]
+				in
+				    dbo_DimCustomer
+
+	annotation PBI_ResultType = Table
+

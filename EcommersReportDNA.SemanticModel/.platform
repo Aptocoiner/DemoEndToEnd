@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "EcommersReportDNA"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f5d037bd-418d-a55e-4dd5-a69ae2d81404"
+  }
+}

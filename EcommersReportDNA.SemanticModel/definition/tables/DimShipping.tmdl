@@ -1,0 +1,68 @@
+table DimShipping
+	lineageTag: 4e807282-4b7a-4209-ad62-39725428352a
+
+	column ShippingKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c0b2c0a-df2c-44f2-93d2-0523dc121b88
+		summarizeBy: none
+		sourceColumn: ShippingKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShippingType
+		dataType: string
+		lineageTag: 1eddf87b-1b8d-4e48-8eed-a88b79ea0433
+		summarizeBy: none
+		sourceColumn: ShippingType
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInternational
+		dataType: string
+		lineageTag: db3889e3-4e7a-45f8-9123-b72f886a0fdd
+		summarizeBy: none
+		sourceColumn: IsInternational
+
+		annotation SummarizationSetBy = Automatic
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a2d79195-bf5e-4bed-acfc-60e1d73dcb4a
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 16c1ddee-a95c-4e7a-b1ed-22e928966f37
+			defaultHierarchy: LocalDateTable_5c03aebc-9e11-4e0e-a944-72204ccc8a07.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8c1e0cfc-e005-4f76-b6e5-2cc9184b4c02
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 8952fecf-edca-4624-b89d-9f7c777a4128
+			defaultHierarchy: LocalDateTable_1655eaf6-7159-4c6a-b21f-e547b149f89f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimShipping = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_DimShipping = EcommrceDWH{[Schema="dbo",Item="DimShipping"]}[Data]
+				in
+				    dbo_DimShipping
+
+	annotation PBI_ResultType = Table
+

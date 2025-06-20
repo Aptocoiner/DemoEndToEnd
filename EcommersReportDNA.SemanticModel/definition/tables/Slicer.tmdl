@@ -1,0 +1,26 @@
+table Slicer
+	lineageTag: ac8925c5-ac59-4106-8c5f-b29621427813
+
+	column Selection
+		lineageTag: 5506801e-3b9b-4937-85ed-be09250479d3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Selection]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Slicer = calculated
+		mode: import
+		source = ```
+				DATATABLE(
+				    "Selection", STRING,
+				    {
+				        {"QuantitySold"},
+				        {"Total_Revenue"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 523f6fd5362b449aad94906f71d98bf1
+

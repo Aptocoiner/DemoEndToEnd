@@ -1,0 +1,100 @@
+relationship 97d64107-6984-4238-b3bf-26d05a90ce14
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimCategory.InsertDate
+	toColumn: LocalDateTable_a30c5cfd-7a07-4c9b-bf59-7349f85c1166.Date
+
+relationship 73604177-8dda-4925-b1ba-f2b0befcbd8e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimCategory.UpdateDate
+	toColumn: LocalDateTable_53f62a96-2a90-460e-b2e8-d833f24f1431.Date
+
+relationship 74a8bdd9-d15f-4cdc-becf-eb1bdf6849a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimCustomer.InsertDate
+	toColumn: LocalDateTable_3c04f254-fc39-4e2d-ac58-2117819260ef.Date
+
+relationship 9b96ce81-3721-4bea-ace1-241d69b5276a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimCustomer.UpdateDate
+	toColumn: LocalDateTable_a6c08ac3-c54a-4ad1-98ab-b716bc97d5ca.Date
+
+relationship 78cab552-6f1b-4acf-ab8e-2ff7783a8c86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimLocation.InsertDate
+	toColumn: LocalDateTable_819affd2-8eae-407a-9511-0aff4b41cb47.Date
+
+relationship 0075077f-5a80-43a4-95cb-62adcbacf370
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimLocation.UpdateDate
+	toColumn: LocalDateTable_81ec5b59-dabf-4d1a-b15a-d56e0b5ddbd4.Date
+
+relationship 497ba8d9-d250-4203-9f86-884a3586e7d9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimProduct.InsertDate
+	toColumn: LocalDateTable_75aee7eb-fe1c-4fca-b76c-723d1d355939.Date
+
+relationship 987e0313-0703-454f-84e1-5fe7ac165e17
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimProduct.UpdateDate
+	toColumn: LocalDateTable_f7419ac9-6f40-4963-a1dc-9f81054cff08.Date
+
+relationship 16c1ddee-a95c-4e7a-b1ed-22e928966f37
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimShipping.InsertDate
+	toColumn: LocalDateTable_5c03aebc-9e11-4e0e-a944-72204ccc8a07.Date
+
+relationship 8952fecf-edca-4624-b89d-9f7c777a4128
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimShipping.UpdateDate
+	toColumn: LocalDateTable_1655eaf6-7159-4c6a-b21f-e547b149f89f.Date
+
+relationship 5faa2e59-26aa-4815-86a5-27a490104971
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactTable.InsertDate
+	toColumn: LocalDateTable_e4d97e61-1aa1-4459-8b66-8a8badf13151.Date
+
+relationship 59399123-2b95-4e91-8a9a-34dbf80986ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactTable.UpdateDate
+	toColumn: LocalDateTable_204deec3-8343-4ac7-b94a-73ff73c07adf.Date
+
+relationship 22e38106-5deb-48cc-9170-ba2f6db7b990
+	isActive: false
+	fromColumn: DimProduct.CategoryKey
+	toColumn: DimCategory.CategoryKey
+
+relationship 1483ddd1-94f3-47ff-92f2-bea54fee6879
+	fromColumn: FactTable.CategoryKey
+	toColumn: DimCategory.CategoryKey
+
+relationship 4e5e77cb-2236-4765-9a05-0365bf02560e
+	crossFilteringBehavior: bothDirections
+	fromColumn: FactTable.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship c57c21e0-37a5-48fd-8f23-3098097ecc2d
+	fromColumn: FactTable.LocationKey
+	toColumn: DimLocation.LocationKey
+
+relationship f504947a-00f5-4efa-a09e-d6256ef11243
+	fromColumn: FactTable.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 2b50bd13-a43f-4d2a-a3c5-8ddb389245ca
+	fromColumn: FactTable.ShippingKey
+	toColumn: DimShipping.ShippingKey
+
+relationship ba31e34c-eed1-4747-8740-b63453de2631
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_08627dca-e91f-4898-92e0-cbcb9512dc2c.Date
+
+relationship c3e6c3ad-15ca-f1ca-436b-99618ca6a9af
+	fromColumn: FactTable.OrderDate
+	toColumn: DimDate.Date
+
+relationship cb13108a-6163-b941-ebe6-1ad7dc8c612d
+	isActive: false
+	fromColumn: DimCustomer.LocationKey
+	toColumn: DimLocation.LocationKey
+

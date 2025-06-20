@@ -1,0 +1,138 @@
+table Measure
+	lineageTag: 031ba8d6-3871-4cc5-823a-18aff6c9edfb
+
+	measure Total_Revenue = sum(FactTable[TotalSales])
+		lineageTag: 1ac92bad-faa2-411f-81b0-83e64038b6aa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Quantity_Sold = count(FactTable[Quantity])
+		formatString: 0
+		lineageTag: 2f453214-0caa-4079-b28f-a9fae036127a
+
+	measure 'Average_Sales_per_ Unit' = ```
+			AVERAGE(FactTable[SalesPerUnit])
+			
+			```
+		lineageTag: 06ee8a1c-96b5-48f9-81c5-5a1b7d2c7d85
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Male_Customers = ```
+			
+			CALCULATE(
+			    COUNT(DimCustomer[Customerkey]),
+			    DimCustomer[CustomerGender] = "Male"
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 8cb43a2b-f6ca-4f33-9b67-e2770bba6542
+
+	measure Total_Female_Customers = ```
+			
+			CALCULATE(
+			    COUNT(DimCustomer[Customerkey]),
+			    DimCustomer[CustomerGender] = "Female"
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 88b2bb13-2f65-4a63-b93f-1cc932f4f7d0
+
+	measure Clothing_Quantity_Count = CALCULATE(count(FactTable[Quantity]),DimCategory[CategoryKey]=1)
+		formatString: 0
+		lineageTag: f2fa0e98-64a2-47f6-aeeb-ee2bdf0fd911
+
+	measure Total_Ornaments_Sold = CALCULATE(count(FactTable[Quantity]),DimCategory[CategoryKey]=2)
+		formatString: 0
+		lineageTag: 96c70923-c074-496f-8c55-652cb8ad057a
+
+	measure Total_Other_Count = CALCULATE(count(FactTable[Quantity]),DimCategory[CategoryKey]=3)
+		formatString: 0
+		lineageTag: c50c8266-0521-4943-9383-5e40cb39e3e3
+
+	measure QuantitySold = sum(FactTable[Quantity])
+		lineageTag: 793a6831-99d1-4e8e-ba9a-bc99a90bf1ae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average_Shipping _Charge' = AVERAGE(FactTable[ShippingCharges])
+		lineageTag: 98e6f451-4360-4431-a9ad-7b1dee78b465
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ProductCount = CALCULATE(count(FactTable[Quantity]),(FactTable[ShippingKey]=2))
+		formatString: 0
+		lineageTag: 57c4d5ad-a588-4226-bc7d-0d172013cff3
+
+	measure Customer_Order_Count = ```
+			
+			CALCULATE(
+			    COUNTROWS('FactTable'),
+			    FILTER(
+			        'FactTable',
+			        'FactTable'[CustomerKey] = SELECTEDVALUE('DimCustomer'[CustomerKey])
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: faace8f8-b89a-451b-810b-36d330e7885a
+
+	measure 'Val Selection' = ```
+			
+			VAR Selection = SELECTEDVALUE('Slicer'[Selection])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Selection = "QuantitySold", SUM(FactTable[Quantity]),
+			    Selection = "Total_Revenue", SUM(FactTable[TotalSales]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: e14f7490-3818-4e2a-8700-03b646db4957
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure KPI_Value = ```
+			
+			VAR SelectedKPI = SELECTEDVALUE('KPI Slicer'[KPI])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    SelectedKPI = "Avg Sales per Unit", AVERAGE(FactTable[SalesPerUnit]),
+			    SelectedKPI = "Total Revenue", SUM(FactTable[TotalSales]),
+			    SelectedKPI = "Order Count", COUNT(FactTable[Quantity]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: eeb99564-8248-4d7e-931f-91d10f79036a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Order = count(FactTable[OrderID])
+		formatString: 0
+		lineageTag: 183dd82e-4500-4e1c-a0b8-14ea74f77f3a
+
+	column Column1
+		dataType: string
+		lineageTag: de149507-aa54-4593-808a-3d22c253743a
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,80 @@
+table DimLocation
+	lineageTag: f1d6a65a-9db3-4a96-a1f7-5fda7b4704c5
+
+	column LocationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 52cf79e0-5f4a-4fe6-be1e-21be61ed2ccb
+		summarizeBy: none
+		sourceColumn: LocationKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationName
+		dataType: string
+		lineageTag: 8201348f-c22b-475c-bb4a-751923d99f11
+		summarizeBy: none
+		sourceColumn: LocationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: a2653360-ce05-4a0f-bc4f-502e8e9492b6
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: a7748704-b250-45a7-87ae-55ea79c014bd
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0f8bb75d-e8c4-4d45-a7bc-284a5eab885e
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 78cab552-6f1b-4acf-ab8e-2ff7783a8c86
+			defaultHierarchy: LocalDateTable_819affd2-8eae-407a-9511-0aff4b41cb47.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7585f1ac-4049-41b4-b1f1-4cb87252fcd6
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 0075077f-5a80-43a4-95cb-62adcbacf370
+			defaultHierarchy: LocalDateTable_81ec5b59-dabf-4d1a-b15a-d56e0b5ddbd4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimLocation = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_DimLocation = EcommrceDWH{[Schema="dbo",Item="DimLocation"]}[Data]
+				in
+				    dbo_DimLocation
+
+	annotation PBI_ResultType = Table
+

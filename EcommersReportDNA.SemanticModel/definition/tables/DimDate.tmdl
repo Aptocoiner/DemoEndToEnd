@@ -1,0 +1,178 @@
+table DimDate
+	lineageTag: 8dc51dc2-a470-497a-97f1-13bee0765978
+
+	column Date
+		formatString: Short Date
+		lineageTag: c644a22f-6d94-4dc0-8ff8-3d18524e8e11
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: ba31e34c-eed1-4747-8740-b63453de2631
+			defaultHierarchy: LocalDateTable_08627dca-e91f-4898-92e0-cbcb9512dc2c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: 804b70ba-d23e-406b-b944-4d44e9bc4a43
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		formatString: 0
+		lineageTag: 45130a0a-f9bc-4714-a594-7ec0320c6c4e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		formatString: 0
+		lineageTag: 4fa32bc6-1f84-4756-9750-ba9a785a56e2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MonthNumber]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		formatString: 0
+		lineageTag: 805ca467-1a7d-4c24-9770-fb45c559908b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		lineageTag: 520de1a1-60a7-401d-8a6c-169c681631bd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MonthName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShortMonth
+		lineageTag: 1da8dbe5-119e-45a9-a932-d7d0968fc2e1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ShortMonth]
+		sortByColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		formatString: 0
+		lineageTag: 4632d602-8bf1-4d34-8235-b6fc890e1de4
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		formatString: 0
+		lineageTag: 57fb1ad7-a2e5-4b3c-9cf1-be055d4e65aa
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [DayOfWeek]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		lineageTag: 9b388da0-362b-4368-9b8a-5e574f152f6b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DayName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekOfYear
+		formatString: 0
+		lineageTag: d7efe344-8fd8-48e3-8bbb-1e8c8aa1a43d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [WeekOfYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfYear
+		formatString: 0
+		lineageTag: 088070bd-4995-43d8-b5ab-80dc687319b5
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [DayOfYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1b04a636-cc66-40ab-9d15-8f165ec11aca
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IsWeekend]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHoliday
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9481025-e55b-4ca9-8699-722599e11779
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IsHoliday]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Slicer Date'
+		lineageTag: f2b20965-47bf-4b50-91eb-439174454f1d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Slicer Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = calculated
+		mode: import
+		source = ```
+				
+				VAR StartDate = DATE(2023, 1, 1)
+				VAR EndDate = DATE(2024, 12, 31)
+				RETURN
+				ADDCOLUMNS (
+				    CALENDAR (StartDate, EndDate),
+				    "Year", YEAR([Date]),
+				    "Quarter", QUARTER([Date]), 
+				    "MonthNumber", MONTH([Date]),
+				    "Month", MONTH([Date]),
+				    "MonthName", FORMAT([Date], "MMMM"),
+				    "ShortMonth",FORMAT([date],"MMM"),
+				    "Day", DAY([Date]),
+				    "DayOfWeek", WEEKDAY([Date]),
+				    "DayName", FORMAT([Date], "dddd"),
+				    "WeekOfYear", WEEKNUM([Date]),
+				    "DayOfYear", DATEDIFF(DATE(YEAR([Date]), 1, 1), [Date], DAY) + 1,
+				    "IsWeekend", IF(WEEKDAY([Date], 2) >= 6, TRUE, FALSE),
+				    "IsHoliday", FALSE , -- Placeholder for holidays, adjust as needed
+				    "Slicer Date", 
+				    IF (
+				        [Date] = TODAY(),
+				        "today",
+				        IF (
+				            [Date] < TODAY(),
+				            FORMAT([Date], "dd-mm-yyyy"),
+				            BLANK()
+				        )
+				    )
+				)
+				
+				```
+
+	annotation PBI_Id = 8acfb2210f414c9e935cb263fdb0b4bf
+

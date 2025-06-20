@@ -1,0 +1,41 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DimCategory","DimCustomer","DimLocation","DimProduct","DimShipping","FactTable","Measure"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.142.1277.0 (25.04)+014fde450f93691fc9537f0758d73d1c5df153ef
+
+ref table DimCategory
+ref table DateTableTemplate_7b710f1b-3597-4e30-b659-3546f5b76187
+ref table LocalDateTable_a30c5cfd-7a07-4c9b-bf59-7349f85c1166
+ref table LocalDateTable_53f62a96-2a90-460e-b2e8-d833f24f1431
+ref table DimCustomer
+ref table LocalDateTable_3c04f254-fc39-4e2d-ac58-2117819260ef
+ref table LocalDateTable_a6c08ac3-c54a-4ad1-98ab-b716bc97d5ca
+ref table DimLocation
+ref table LocalDateTable_819affd2-8eae-407a-9511-0aff4b41cb47
+ref table LocalDateTable_81ec5b59-dabf-4d1a-b15a-d56e0b5ddbd4
+ref table DimProduct
+ref table LocalDateTable_75aee7eb-fe1c-4fca-b76c-723d1d355939
+ref table LocalDateTable_f7419ac9-6f40-4963-a1dc-9f81054cff08
+ref table DimShipping
+ref table LocalDateTable_5c03aebc-9e11-4e0e-a944-72204ccc8a07
+ref table LocalDateTable_1655eaf6-7159-4c6a-b21f-e547b149f89f
+ref table FactTable
+ref table LocalDateTable_e4d97e61-1aa1-4459-8b66-8a8badf13151
+ref table LocalDateTable_204deec3-8343-4ac7-b94a-73ff73c07adf
+ref table DimDate
+ref table LocalDateTable_08627dca-e91f-4898-92e0-cbcb9512dc2c
+ref table Measure
+ref table Slicer
+ref table 'KPI Slicer'
+
+ref cultureInfo en-US
+

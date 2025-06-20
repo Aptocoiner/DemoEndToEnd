@@ -1,0 +1,200 @@
+table FactTable
+	lineageTag: 4d5e421f-1b03-498c-9e6b-725e195a7355
+
+	column FactKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c08dd1ed-6409-4dfd-bc85-f1cd66b82fa0
+		summarizeBy: count
+		sourceColumn: FactKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 87e69c7d-8c83-4580-b170-50648836ddda
+		summarizeBy: none
+		sourceColumn: CategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b4013f8a-e5b8-4235-977d-86be5dacaea2
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e07ead1b-4411-4b40-9abb-e89b1f98ab1a
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6dbd6cc2-2bcb-4798-aee1-f93c122e91b0
+		summarizeBy: none
+		sourceColumn: LocationKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShippingKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8bbd11cd-5335-488a-b11b-d83289791bd0
+		summarizeBy: none
+		sourceColumn: ShippingKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderID
+		dataType: double
+		lineageTag: b2b9456c-88f9-41d0-a8ff-f75244a1b991
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 85d893a3-6822-4539-b568-7a4ec7116b6a
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesPrice
+		dataType: double
+		lineageTag: 301fb687-ced1-4231-842c-495dccaba7a5
+		summarizeBy: sum
+		sourceColumn: SalesPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ShippingCharges
+		dataType: double
+		lineageTag: bc9ae1c0-2224-4807-8b72-03f93c1aea64
+		summarizeBy: sum
+		sourceColumn: ShippingCharges
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesPerUnit
+		dataType: double
+		lineageTag: be717196-ba9b-41e8-807e-047343bdf3f4
+		summarizeBy: sum
+		sourceColumn: SalesPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quantity
+		dataType: double
+		lineageTag: ff1eaef2-dc79-4533-8623-6fce016de789
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalSales
+		dataType: double
+		lineageTag: 78f8c4e4-3815-4cb4-ab0a-253896d60382
+		summarizeBy: sum
+		sourceColumn: TotalSales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Rating
+		dataType: double
+		lineageTag: c5fabe81-47fb-4d7a-9b7a-7bdbf3a1b7f5
+		summarizeBy: sum
+		sourceColumn: Rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1a9dda1a-1d18-4901-a426-34f8c42ecf3c
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 5faa2e59-26aa-4815-86a5-27a490104971
+			defaultHierarchy: LocalDateTable_e4d97e61-1aa1-4459-8b66-8a8badf13151.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5b9f90bb-e234-4122-800b-27deec896592
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 59399123-2b95-4e91-8a9a-34dbf80986ef
+			defaultHierarchy: LocalDateTable_204deec3-8343-4ac7-b94a-73ff73c07adf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Review
+		dataType: string
+		lineageTag: 1f47ee12-bcb3-4201-a87e-45181f5dffe2
+		summarizeBy: none
+		sourceColumn: Review
+
+		annotation SummarizationSetBy = Automatic
+
+	column RatingCategory = ```
+			
+			SWITCH(
+			    TRUE(),
+			    FactTable[Rating] IN {1, 2}, "Bad",
+			    FactTable[Rating] = 3, "Neutral",
+			    FactTable[Rating] IN {4, 5}, "Good",
+			    "Unknown"
+			)
+			
+			```
+		lineageTag: efa137ec-4cc4-4cf6-bbd1-e68844c662bd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactTable = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_FactTable = EcommrceDWH{[Schema="dbo",Item="FactTable"]}[Data]
+				in
+				    dbo_FactTable
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,69 @@
+table DimProduct
+	lineageTag: 94570fd7-bae3-4c6c-913a-717defd38ad8
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f129836-6fd4-4980-a171-3805a755bdf0
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 63303be3-38d3-44e3-b7e1-57700c76b537
+		summarizeBy: count
+		sourceColumn: CategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		lineageTag: 9b19442b-4c0f-4810-a9e8-7994e5751396
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1a526e6a-35a5-4d5a-9ab3-c79852467448
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 497ba8d9-d250-4203-9f86-884a3586e7d9
+			defaultHierarchy: LocalDateTable_75aee7eb-fe1c-4fca-b76c-723d1d355939.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e74ba179-5c10-4dc0-bb79-3e70c685b894
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 987e0313-0703-454f-84e1-5fe7ac165e17
+			defaultHierarchy: LocalDateTable_f7419ac9-6f40-4963-a1dc-9f81054cff08.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_DimProduct = EcommrceDWH{[Schema="dbo",Item="DimProduct"]}[Data]
+				in
+				    dbo_DimProduct
+
+	annotation PBI_ResultType = Table
+

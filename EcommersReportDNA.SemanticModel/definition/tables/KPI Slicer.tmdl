@@ -1,0 +1,27 @@
+table 'KPI Slicer'
+	lineageTag: 02ed8312-2c58-4d29-a71d-a60d03d2287a
+
+	column KPI
+		lineageTag: b7968637-bb68-4489-b295-9f712567acf3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'KPI Slicer' = calculated
+		mode: import
+		source = ```
+				DATATABLE(
+				    "KPI", STRING,
+				    {
+				        {"Avg Sales per Unit"},
+				        {"Total Revenue"},
+				        {"Order Count"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 30a1abf73cfe4a8da456aa285574e778
+

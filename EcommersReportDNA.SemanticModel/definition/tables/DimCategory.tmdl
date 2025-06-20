@@ -1,0 +1,60 @@
+table DimCategory
+	lineageTag: 08d3df3d-e58e-45d1-b2d0-f58aee34fd8e
+
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e7c1bed0-ef4c-4c75-b29f-44c81f16d9eb
+		summarizeBy: none
+		sourceColumn: CategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryName
+		dataType: string
+		lineageTag: 3fa9bc6c-14b7-441f-994c-f3487557651b
+		summarizeBy: none
+		sourceColumn: CategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column InsertDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fce1089f-26b5-42fa-81fc-02556f5958e9
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 97d64107-6984-4238-b3bf-26d05a90ce14
+			defaultHierarchy: LocalDateTable_a30c5cfd-7a07-4c9b-bf59-7349f85c1166.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a31907d8-61aa-48bf-9d8c-34508f4e116b
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: 73604177-8dda-4925-b1ba-f2b0befcbd8e
+			defaultHierarchy: LocalDateTable_53f62a96-2a90-460e-b2e8-d833f24f1431.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCategory = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("."),
+				    EcommrceDWH = Source{[Name="EcommrceDWH"]}[Data],
+				    dbo_DimCategory = EcommrceDWH{[Schema="dbo",Item="DimCategory"]}[Data]
+				in
+				    dbo_DimCategory
+
+	annotation PBI_ResultType = Table
+
